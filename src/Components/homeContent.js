@@ -10,15 +10,127 @@ import {
   Avatar,
   IconButton,
 } from "@material-ui/core";
-import { red, grey } from "@material-ui/core/colors";
+import {
+  red,
+  grey,
+  pink,
+  purple,
+  indigo,
+  blue,
+  cyan,
+  teal,
+  green,
+  lime,
+  yellow,
+  amber,
+  orange,
+  lightBlue,
+} from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-const Content = ({ avatar, image, image_title, title, subtitle, desc }) => {
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import {useStateValue} from "../StateProvider";
+const avColor = [
+  red,
+  grey,
+  pink,
+  purple,
+  indigo,
+  blue,
+  lightBlue,
+  cyan,
+  teal,
+  green,
+  lime,
+  yellow,
+  amber,
+  orange,
+];
+const item = () => (avColor[Math.floor(Math.random() * avColor.length)]);
+const HomeContent = ({
+  id,
+  avatar,
+  image,
+  image_title,
+  title,
+  subtitle,
+  desc,
+  price,
+  quantity,
+}) => {
+  const [,dispatch] = useStateValue();
+  const addToBasket = () =>(
+    dispatch({
+        type: 'ADD_TO_BASKET',
+        item:{
+            id:id,
+            title:title,
+            image:image,
+            price:price,
+        }
+    })
+);
+const removeFromBasket = () =>
+    {
+        dispatch({
+            type: 'REMOVE_FROM_BASKET',
+            id: id,
+        });
+    };
+const addToWishList = () =>(
+  dispatch({
+      type: 'ADD_TO_WishList',
+      item:{
+          id:id,
+          title:title,
+          image:image,
+          price:price,
+      }
+  })
+);
+const removeFromWishList = () =>
+    {
+        dispatch({
+            type: 'REMOVE_FROM_WishList',
+            id: id,
+        });
+    };
   const classes = useStyles();
   const [like, setLiked] = useState(grey[500]);
+  const[click, setClick] = useState(1);
+  const [clickBasket, setClickBasket] = useState(1);
+  const [addCart, setAddCart] = useState(grey[500]);
+  const counter = () =>
+  {
+    setClick((c)=>c+1);
+    if(click%2!==0)
+    {
+      setLiked(red[500]);
+      addToWishList();
+    }
+    else
+    {
+      setLiked(grey[500]);
+      removeFromWishList();
+    }
+  }
+  const cartClick = () =>
+  {
+    setClickBasket((c)=>c+1);
+    if(clickBasket%2!==0)
+    {
+      setAddCart(lightBlue[500]);
+      addToBasket();
+    }
+    else
+    {
+      setAddCart(grey[500]);
+      removeFromBasket();
+    }
+  }
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} key={id}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -38,22 +150,30 @@ const Content = ({ avatar, image, image_title, title, subtitle, desc }) => {
         <Typography variant="body2" color="textSecondary" component="p">
           {desc}
         </Typography>
+        <Typography variant="h3">
+          <strong>&#x20B9;{price}</strong>
+        </Typography>
+        <Typography variant="h5">
+          <strong>{quantity}</strong>
+        </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
           aria-label="add to favorites"
-          onClick={() => setLiked("#E53935")}
+          onClick={counter}
         >
           <FavoriteIcon style={{ color: like }} />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        <IconButton style={{ marginLeft: "45%" }} onClick={cartClick}>
+          <AddShoppingCartIcon style={{color: addCart}} />
+        </IconButton>
       </CardActions>
     </Card>
   );
 };
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -73,8 +193,8 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: item()[500],
   },
 }));
 
-export default Content;
+export default HomeContent;

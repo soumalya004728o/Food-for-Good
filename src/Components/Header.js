@@ -20,12 +20,16 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import DepartureBoardIcon from "@material-ui/icons/DepartureBoard";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import Badge from "@material-ui/core/Badge";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
-import Content from "./homeContent";
+import HomeIcon from "@material-ui/icons/Home";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import color from "../Theme/Color";
+import { Link } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
 const drawerWidth = 240;
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -37,7 +41,7 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const [{ basket, wishlist, user }] = useStateValue();
   return (
     <div className={classes.root}>
       <AppBar
@@ -105,43 +109,71 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <AddShoppingCartIcon style={{ fontSize: 40 }} />
-            </ListItemIcon>
-            <ListItemText>Orders</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <DepartureBoardIcon style={{ fontSize: 40 }} />
-            </ListItemIcon>
-            <ListItemText>Delivery</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <AccountCircleIcon style={{ fontSize: 40 }} />
-            </ListItemIcon>
-            <ListItemText>Signup/Login</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <NotificationsIcon style={{ fontSize: 40 }} />
-            </ListItemIcon>
-            <ListItemText>Notifications</ListItemText>
-          </ListItem>
+          <Link to="/">
+            <ListItem button>
+              <ListItemIcon>
+                <HomeIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>Home</ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/cart">
+            <ListItem button>
+              <ListItemIcon>
+                <Badge badgeContent={basket?.length} color="secondary">
+                  <AddShoppingCartIcon style={{ fontSize: 40 }} />
+                </Badge>
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>Orders</ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/delivery">
+            <ListItem button>
+              <ListItemIcon>
+                <DepartureBoardIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Delivery
+              </ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/user_auth">
+            <ListItem button>
+              <ListItemIcon>
+                <AccountCircleIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Signup/Login
+              </ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/alert">
+            <ListItem button>
+              <ListItemIcon>
+                <NotificationsIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Notifications
+              </ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/wishlist">
+            <ListItem button>
+              <ListItemIcon>
+                <Badge badgeContent={wishlist?.length} color="secondary">
+                  <FavoriteIcon style={{ fontSize: 40 }} />
+                </Badge>
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Wish List
+              </ListItemText>
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Content
-          avatar="R"
-          image="https://www.bigbasket.com/media/uploads/p/xxl/10000148_28-fresho-onion.jpg"
-          image_title="Paella dish"
-          title="Shrimp and Chorizo Paella"
-          subtitle="September 14, 2016"
-          desc="This impressive paella is a perfect party dish and a fun meal to cook together with your
-        guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        />
+        {props.children}
       </main>
     </div>
   );
@@ -246,5 +278,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     background: color.highlight,
+  },
+  link: {
+    color: color.secondary,
+    textDecoration: "none",
   },
 }));
