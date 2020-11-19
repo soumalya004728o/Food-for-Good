@@ -24,6 +24,7 @@ import Badge from "@material-ui/core/Badge";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import HomeIcon from "@material-ui/icons/Home";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import color from "../Theme/Color";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
@@ -166,6 +167,16 @@ export default function MiniDrawer(props) {
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
                 Wish List
+              </ListItemText>
+            </ListItem>
+          </Link>
+          <Link to="/support">
+            <ListItem button>
+              <ListItemIcon>
+                  <SupervisorAccountIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Customer Support
               </ListItemText>
             </ListItem>
           </Link>
