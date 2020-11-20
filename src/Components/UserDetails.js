@@ -44,7 +44,7 @@ const UserDetails = () => {
   const history = useHistory();
   const matches = useMediaQuery("(max-width:576px)");
   //   const allInputs = {imgUrl: ''};
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user,imageurl }, dispatch] = useStateValue();
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
@@ -84,7 +84,7 @@ const UserDetails = () => {
     if (ImgAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
-    const uploadTask = storage.ref(`/images/${ImgAsFile.name}`).put(ImgAsFile);
+    const uploadTask = storage.ref(`/images/${user?.uid}/${ImgAsFile.name}`).put(ImgAsFile);
     //initiates the firebase side uploading
     uploadTask.on(
       "state_changed",
@@ -100,15 +100,16 @@ const UserDetails = () => {
         // gets the functions from storage refences the image storage in firebase by the children
         // gets the download url then sets the image from firebase as the value for the imgUrl key:
         storage
-          .ref("images")
+          .ref(`images/${user?.uid}`)
           .child(ImgAsFile.name)
           .getDownloadURL()
-          .then((fireBaseUrl) => {
+          .then((fireBaseImgUrl) => {
             dispatch({
-              type: "SET_IMAGE",
-              imageurl: fireBaseUrl,
+              type: 'SET_IMAGE',
+              imageurl: toString(fireBaseImgUrl),
             });
-            console.log("ImgUrl: ", fireBaseUrl);
+            console.log("ImgUrl: ", imageurl);
+            console.log("FireBaseImgUrl: ", fireBaseImgUrl);
             history.push("/home");
           });
       }

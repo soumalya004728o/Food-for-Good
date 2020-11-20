@@ -2,7 +2,7 @@ export const initialState = {
   basket: [],
   wishlist: [],
   user: null,
-  imageurl: '',
+  imageurl: null,
 };
 export const getBasketTotal = (basket) =>
   basket?.reduce((amount, item) => item.price + amount, 0);
@@ -37,11 +37,13 @@ const reducer = (state, action) => {
       }
       return { ...state, wishlist: newWishList };
     case "SET_USER":
+      console.log("SET_USER fired");
       return {
         ...state,
         user: action.user,
       };
     case "SET_IMAGE":
+      console.log("SET_Image fired");
       return{
         ...state,
         imageurl: action.imageurl,

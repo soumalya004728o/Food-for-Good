@@ -41,8 +41,8 @@ export default function MiniDrawer(props) {
   const theme = useTheme();
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [Data, setData] = useState("");
-  const [Name, setName] = useState("");
+  var [Data, setData] = useState("");
+  var [Name, setName] = useState("");
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -52,6 +52,7 @@ export default function MiniDrawer(props) {
   };
   const [{ basket, wishlist, imageurl, user },dispatch] = useStateValue();
   const fetchName = async () => {
+      console.log("fetchName fired");
       const snapshot = await db
         .collection("Users")
         .doc(user?.uid)
@@ -59,14 +60,19 @@ export default function MiniDrawer(props) {
         .doc("data")
         .get();
       setData(snapshot.data());
+      console.log("Snapped Data: ",snapshot.data());
   };
 //Needs to be called when user is changed
   useEffect(()=>
   {
+    console.log("UseEffect Fired");
     if(user!==null)
     {
+      console.log("User not NUll, User->",user);
       fetchName();
+      console.log("Fetched Data: ",Data.Name);
       cutString();
+      console.log("URL: ",imageurl);
     }
   },[user])
   const login = () => {
@@ -74,13 +80,11 @@ export default function MiniDrawer(props) {
   };
   const logout = () => {
     auth.signOut();
-    dispatch({
-      type: 'SET_USER',
-      user:null,
-    })
+    console.log("set data resetted");
   };
   const cutString = () => {
-    if (Data.Name) {
+    console.log("cutString fired for: ",user?.uid);
+    if (Data.Name!==undefined) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
@@ -187,7 +191,7 @@ export default function MiniDrawer(props) {
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
-                {`${Name}, Log Out`}
+                {(Name!==undefined)?`${Name} Log Out`:"Log Out"}
               </ListItemText>
             </ListItem>
           ) : (

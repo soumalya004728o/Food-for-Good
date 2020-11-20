@@ -27,6 +27,8 @@ function App() {
           type: 'SET_USER',
           user: null,
         });
+        //Very much needed to change the userName I need to force update it
+        MiniDrawer.forceUpdate();
       }
     });
   }, [dispatch]);
