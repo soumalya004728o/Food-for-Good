@@ -1,40 +1,48 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import clsx from "clsx";
-import { makeStyles, useTheme, fade } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
+import {
+  makeStyles,
+  useTheme,
+  fade,
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  InputBase,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Badge,
+} from "@material-ui/core";
+
 import SearchIcon from "@material-ui/icons/Search";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import DepartureBoardIcon from "@material-ui/icons/DepartureBoard";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import Badge from "@material-ui/core/Badge";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import HomeIcon from "@material-ui/icons/Home";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import color from "../Theme/Color";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import { db, auth } from "../firebase";
 const drawerWidth = 240;
 
 export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [Data, setData] = useState("");
+  const [Name, setName] = useState("");
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -42,7 +50,42 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [{ basket, wishlist, user }] = useStateValue();
+  const [{ basket, wishlist, imageurl, user },dispatch] = useStateValue();
+  const fetchName = async () => {
+      const snapshot = await db
+        .collection("Users")
+        .doc(user?.uid)
+        .collection("details")
+        .doc("data")
+        .get();
+      setData(snapshot.data());
+  };
+//Needs to be called when user is changed
+  useEffect(()=>
+  {
+    if(user!==null)
+    {
+      fetchName();
+      cutString();
+    }
+  },[user])
+  const login = () => {
+    history.push("/user_auth");
+  };
+  const logout = () => {
+    auth.signOut();
+    dispatch({
+      type: 'SET_USER',
+      user:null,
+    })
+  };
+  const cutString = () => {
+    if (Data.Name) {
+      const name = Data.Name;
+      const firstName = name.substr(0, name.indexOf(" "));
+      setName(firstName);
+    }
+  };
   return (
     <div className={classes.root}>
       <AppBar
@@ -110,7 +153,7 @@ export default function MiniDrawer(props) {
         </div>
         <Divider />
         <List>
-          <Link to="/">
+          <Link to="/" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
                 <HomeIcon style={{ fontSize: 40 }} />
@@ -118,7 +161,7 @@ export default function MiniDrawer(props) {
               <ListItemText className={clsx(classes.link)}>Home</ListItemText>
             </ListItem>
           </Link>
-          <Link to="/cart">
+          <Link to="/cart" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
                 <Badge badgeContent={basket?.length} color="secondary">
@@ -128,7 +171,7 @@ export default function MiniDrawer(props) {
               <ListItemText className={clsx(classes.link)}>Orders</ListItemText>
             </ListItem>
           </Link>
-          <Link to="/delivery">
+          <Link to="/delivery" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
                 <DepartureBoardIcon style={{ fontSize: 40 }} />
@@ -138,17 +181,26 @@ export default function MiniDrawer(props) {
               </ListItemText>
             </ListItem>
           </Link>
-          <Link to="/user_auth">
-            <ListItem button>
+          {user ? (
+            <ListItem button onClick={logout}>
               <ListItemIcon>
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
-                Signup/Login
+                {`${Name}, Log Out`}
               </ListItemText>
             </ListItem>
-          </Link>
-          <Link to="/alert">
+          ) : (
+            <ListItem button onClick={login}>
+              <ListItemIcon>
+                <AccountCircleIcon style={{ fontSize: 40 }} />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.link)}>
+                Login/SignUp
+              </ListItemText>
+            </ListItem>
+          )}
+          <Link to="/alert" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
                 <NotificationsIcon style={{ fontSize: 40 }} />
@@ -158,7 +210,7 @@ export default function MiniDrawer(props) {
               </ListItemText>
             </ListItem>
           </Link>
-          <Link to="/wishlist">
+          <Link to="/wishlist" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
                 <Badge badgeContent={wishlist?.length} color="secondary">
@@ -170,10 +222,10 @@ export default function MiniDrawer(props) {
               </ListItemText>
             </ListItem>
           </Link>
-          <Link to="/support">
+          <Link to="/support" style={{ textDecoration: "none" }}>
             <ListItem button>
               <ListItemIcon>
-                  <SupervisorAccountIcon style={{ fontSize: 40 }} />
+                <SupervisorAccountIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
                 Customer Support

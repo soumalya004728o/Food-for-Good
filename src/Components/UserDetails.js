@@ -43,13 +43,13 @@ const UserDetails = () => {
   const classes = useStyles();
   const history = useHistory();
   const matches = useMediaQuery("(max-width:576px)");
-//   const allInputs = {imgUrl: ''};
-  const [{ user },dispatch] = useStateValue();
+  //   const allInputs = {imgUrl: ''};
+  const [{ user }, dispatch] = useStateValue();
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
   const [ImgAsFile, setImgAsFile] = useState("");
-//   const[ImgUrl,setImgUrl] = useState('');
+  //   const[ImgUrl,setImgUrl] = useState('');
   //to reset the file input value
   // Used to change date format from yyyy-mm-dd to dd-mm-yyyy
   // const handledate = e =>{
@@ -84,9 +84,7 @@ const UserDetails = () => {
     if (ImgAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
-    const uploadTask = storage
-      .ref(`/images/${ImgAsFile.name}`)
-      .put(ImgAsFile);
+    const uploadTask = storage.ref(`/images/${ImgAsFile.name}`).put(ImgAsFile);
     //initiates the firebase side uploading
     uploadTask.on(
       "state_changed",
@@ -107,17 +105,17 @@ const UserDetails = () => {
           .getDownloadURL()
           .then((fireBaseUrl) => {
             dispatch({
-                type: 'SET_IMAGE',
-                imageurl: fireBaseUrl,
+              type: "SET_IMAGE",
+              imageurl: fireBaseUrl,
             });
-            console.log("ImgUrl: ",fireBaseUrl);
+            console.log("ImgUrl: ", fireBaseUrl);
             history.push("/home");
           });
       }
     );
   };
   const userDetailUpload = () => {
-    if (Name !== "" && Address !== "") {
+    if (Name !== "" || (Name !== null && Address !== "") || Address !== null) {
       db.collection("Users")
         .doc(user?.uid)
         .collection("details")
