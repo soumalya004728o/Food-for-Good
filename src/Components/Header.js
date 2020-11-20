@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -50,31 +50,26 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [{ basket, wishlist, imageurl, user },dispatch] = useStateValue();
+  const [{ basket, wishlist, user }] = useStateValue();
   const fetchName = async () => {
-      console.log("fetchName fired");
-      const snapshot = await db
-        .collection("Users")
-        .doc(user?.uid)
-        .collection("details")
-        .doc("data")
-        .get();
+    console.log("fetchName fired");
+    const snapshot = await db
+      .collection("Users")
+      .doc(user?.uid)
+      .collection("details")
+      .doc("data")
+      .get();
       setData(snapshot.data());
-      console.log("Snapped Data: ",snapshot.data());
   };
-//Needs to be called when user is changed
-  useEffect(()=>
-  {
+  //Needs to be called when user is changed and fetching is done
+  useEffect(() => {
     console.log("UseEffect Fired");
-    if(user!==null)
-    {
-      console.log("User not NUll, User->",user);
+    if (user !== null) {
+      console.log("User not NUll, User->", user);
       fetchName();
-      console.log("Fetched Data: ",Data.Name);
       cutString();
-      console.log("URL: ",imageurl);
     }
-  },[user])
+  }, [user,fetchName]);
   const login = () => {
     history.push("/user_auth");
   };
@@ -83,8 +78,8 @@ export default function MiniDrawer(props) {
     console.log("set data resetted");
   };
   const cutString = () => {
-    console.log("cutString fired for: ",user?.uid);
-    if (Data.Name!==undefined) {
+    console.log("cutString fired for: ", user?.uid);
+    if (Data.Name !== undefined) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
@@ -191,7 +186,7 @@ export default function MiniDrawer(props) {
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
-                {(Name!==undefined)?`${Name} Log Out`:"Log Out"}
+                {Name !== undefined ? `${Name} Log Out` : "Log Out"}
               </ListItemText>
             </ListItem>
           ) : (
