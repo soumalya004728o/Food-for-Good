@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Paper,
   Grid,
@@ -68,6 +68,9 @@ const UserDetails = () => {
     //changing this key will force a re render making the file name disappear
     setkey(false);
   };
+  useEffect(()=>{
+    console.log("UseEffect ImgUrl:",ImgUrl);
+  },[ImgUrl]);
   const upload = (e) => {
     e.preventDefault();
     console.log("upload");

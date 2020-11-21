@@ -53,23 +53,26 @@ export default function MiniDrawer(props) {
   const [{ basket, wishlist, user }] = useStateValue();
   const fetchName = async () => {
     console.log("fetchName fired");
-      const snapshot = await db
+      await db
         .collection("Users")
         .doc(user?.uid)
         .collection("details")
         .doc("data")
-        .get();
-      setData(snapshot.data());
+        .get()
+        .then((snap)=>
+        {
+          setData(snap.data());
+          console.log("Data set")
+        });
   };
-  //Needs to be called when user is changed and fetching is done
+  //Needs to be called everytime user changes means everytime a existing user logs in or a new user Signs Up
   useEffect(() => {
     console.log("UseEffect Fired");
     if (user !== null) {
-      console.log("User not NUll, User->", user);
       fetchName();
       cutString();
     }
-  }, [user, fetchName]);
+  }, [user, Data]);
   const login = () => {
     history.push("/user_auth");
   };
@@ -186,7 +189,7 @@ export default function MiniDrawer(props) {
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
-                {Name !== undefined ? `${Name} Log Out` : "Log Out"}
+                {Name !== undefined ? `${Name}, Log Out` : "Log Out"}
               </ListItemText>
             </ListItem>
           ) : (
