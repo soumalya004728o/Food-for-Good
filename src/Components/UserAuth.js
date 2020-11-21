@@ -21,7 +21,9 @@ import { auth } from "../firebase";
 const useStyles = makeStyles({
   root: {
     maxWidth: 346,
-    margin: "auto",
+    marginTop:80 ,
+    marginLeft: "auto",
+    marginRight:"auto",
   },
   media: {
     height: 215,

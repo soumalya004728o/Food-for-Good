@@ -19,7 +19,9 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   paper: {
     width: 450,
-    margin: "auto",
+    marginTop: 50,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   paperSm: {
     width: "100%",
@@ -28,6 +30,9 @@ const useStyles = makeStyles({
   form: {
     marginLeft: "15%",
     alignItems: "center",
+  },
+  formhtml:{
+    width: "100%",
   },
   title: {
     margin: "auto",
@@ -86,18 +91,19 @@ const SignUp = () => {
     <Grid container>
       <Paper className={matches ? classes.paperSm : classes.paper}>
         <Grid item xs={12}>
-          <Typography variant="h3" className={classes.title}>
-            Sign Up
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
           <img
             src={banner}
             alt="logo"
             className={matches ? classes.imageSm : classes.image}
           />
         </Grid>
-        <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h3" className={classes.title}>
+            Sign Up
+          </Typography>
+        </Grid>
+        <form className={classes.formhtml}>
+          <Grid container>
             <Grid item xs={12}>
               <FormControl className={classes.form}>
                 <InputLabel htmlFor="email">Email</InputLabel>
@@ -164,7 +170,8 @@ const SignUp = () => {
                 Sign Up
               </Button>
             </Grid>
-        </Grid>
+          </Grid>
+        </form>
       </Paper>
     </Grid>
   );

@@ -21,7 +21,9 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   paper: {
     width: 450,
-    margin: "auto",
+    marginTop: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   paperSm: {
     width: "100%",
@@ -44,12 +46,12 @@ const UserDetails = () => {
   const history = useHistory();
   const matches = useMediaQuery("(max-width:576px)");
   //   const allInputs = {imgUrl: ''};
-  const [{ user,imageurl }, dispatch] = useStateValue();
+  const [{ user, imageurl }, dispatch] = useStateValue();
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
   const [ImgAsFile, setImgAsFile] = useState("");
-    const[ImgUrl,setImgUrl] = useState('');
+  const [ImgUrl, setImgUrl] = useState("");
   //to reset the file input value
   // Used to change date format from yyyy-mm-dd to dd-mm-yyyy
   // const handledate = e =>{
@@ -84,7 +86,9 @@ const UserDetails = () => {
     if (ImgAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
-    const uploadTask = storage.ref(`/images/${user?.uid}/${ImgAsFile.name}`).put(ImgAsFile);
+    const uploadTask = storage
+      .ref(`/images/${user?.uid}/${ImgAsFile.name}`)
+      .put(ImgAsFile);
     //initiates the firebase side uploading
     uploadTask.on(
       "state_changed",
@@ -104,7 +108,7 @@ const UserDetails = () => {
           .child(ImgAsFile.name)
           .getDownloadURL()
           .then((fireBaseImgUrl) => {
-           setImgUrl(fireBaseImgUrl);
+            setImgUrl(fireBaseImgUrl);
             console.log("ImgUrl: ", ImgUrl);
             console.log("FireBaseImgUrl: ", fireBaseImgUrl);
             history.push("/home");
@@ -138,82 +142,84 @@ const UserDetails = () => {
             User Details
           </Typography>
         </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.form}>
-              <InputLabel htmlFor="name">Name</InputLabel>
-              <Input
-                id="name"
-                aria-describedby="Name"
-                type="text"
-                onChange={(e) => setName(e.target.value)}
-                value={Name}
-                required={true}
-              />
-            </FormControl>
+        <form>
+          <Grid container>
+            <Grid item xs={12} sm={6}>
+              <FormControl className={classes.form}>
+                <InputLabel htmlFor="name">Name</InputLabel>
+                <Input
+                  id="name"
+                  aria-describedby="Name"
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                  value={Name}
+                  required={true}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl className={classes.form}>
+                <InputLabel htmlFor="address">Delivery Address</InputLabel>
+                <Input
+                  id="address"
+                  aria-describedby="address"
+                  type="text"
+                  onChange={(e) => setAddress(e.target.value)}
+                  value={Address}
+                  required={true}
+                />
+                <FormHelperText>Address won't be Shared</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl className={classes.form}>
+                <TextField
+                  id="dob"
+                  label="Date of Birth"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => setdob(e.target.value)}
+                  value={dob}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl className={classes.form}>
+                <TextField
+                  id="photo"
+                  label="Upload Your Photo"
+                  type="file"
+                  inputProps={{ accept: "image/*" }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleImageAsFile}
+                  key={key}
+                />
+              </FormControl>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.form}>
-              <InputLabel htmlFor="address">Delivery Address</InputLabel>
-              <Input
-                id="address"
-                aria-describedby="address"
-                type="text"
-                onChange={(e) => setAddress(e.target.value)}
-                value={Address}
-                required={true}
-              />
-              <FormHelperText>Address won't be Shared</FormHelperText>
-            </FormControl>
+          <Grid item xs={12} className={classes.button}>
+            <Button
+              size="medium"
+              style={{ color: grey[500] }}
+              type="reset"
+              onClick={reset}
+            >
+              Reset
+            </Button>
+            <Button
+              size="medium"
+              style={{ color: green[500] }}
+              type="submit"
+              onClick={upload}
+            >
+              Submit
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.form}>
-              <TextField
-                id="dob"
-                label="Date of Birth"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(e) => setdob(e.target.value)}
-                value={dob}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl className={classes.form}>
-              <TextField
-                id="photo"
-                label="Upload Your Photo"
-                type="file"
-                inputProps={{ accept: "image/*" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleImageAsFile}
-                key={key}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} className={classes.button}>
-          <Button
-            size="medium"
-            style={{ color: grey[500] }}
-            type="reset"
-            onClick={reset}
-          >
-            Reset
-          </Button>
-          <Button
-            size="medium"
-            style={{ color: green[500] }}
-            type="submit"
-            onClick={upload}
-          >
-            Submit
-          </Button>
-        </Grid>
+        </form>
       </Paper>
     </Grid>
   );
