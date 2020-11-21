@@ -16,6 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Badge,
+  Avatar,
 } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -52,22 +53,21 @@ export default function MiniDrawer(props) {
   };
   const [{ basket, wishlist, user }] = useStateValue();
   const fetchName = async () => {
-    console.log("fetchName fired");
-      await db
-        .collection("Users")
-        .doc(user?.uid)
-        .collection("details")
-        .doc("data")
-        .get()
-        .then((snap)=>
-        {
-          setData(snap.data());
-          console.log("Data set")
-        });
+    // console.log("fetchName fired");
+    await db
+      .collection("Users")
+      .doc(user?.uid)
+      .collection("details")
+      .doc("data")
+      .get()
+      .then((snap) => {
+        setData(snap.data());
+        // console.log("Data set")
+      });
   };
   //Needs to be called everytime user changes means everytime a existing user logs in or a new user Signs Up
   useEffect(() => {
-    console.log("UseEffect Fired");
+    // console.log("UseEffect Fired");
     if (user !== null) {
       fetchName();
       cutString();
@@ -81,7 +81,7 @@ export default function MiniDrawer(props) {
     console.log("set data resetted");
   };
   const cutString = () => {
-    console.log("cutString fired for: ", user?.uid);
+    // console.log("cutString fired for: ", user?.uid);
     if (Data.Name) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
@@ -189,7 +189,7 @@ export default function MiniDrawer(props) {
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
               <ListItemText className={clsx(classes.link)}>
-                {Name !== undefined ? `${Name}, Log Out` : "Log Out"}
+                {Name !== "" ? `${Name}, Log Out` : "Log Out"}
               </ListItemText>
             </ListItem>
           ) : (

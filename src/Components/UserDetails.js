@@ -46,12 +46,11 @@ const UserDetails = () => {
   const history = useHistory();
   const matches = useMediaQuery("(max-width:576px)");
   //   const allInputs = {imgUrl: ''};
-  const [{ user, imageurl }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
   const [ImgAsFile, setImgAsFile] = useState("");
-  const [ImgUrl, setImgUrl] = useState("");
   //to reset the file input value
   // Used to change date format from yyyy-mm-dd to dd-mm-yyyy
   // const handledate = e =>{
@@ -68,13 +67,10 @@ const UserDetails = () => {
     //changing this key will force a re render making the file name disappear
     setkey(false);
   };
-  useEffect(() => {
-    console.log("UseEffect ImgUrl:", ImgUrl);
-  }, [ImgUrl]);
   const upload = (e) => {
     e.preventDefault();
     console.log("upload");
-    userDetailUpload();
+    // userDetailUpload();
     firebaseUpload();
   };
   const handleImageAsFile = (e) => {
@@ -90,7 +86,7 @@ const UserDetails = () => {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
     const uploadTask = storage
-      .ref(`/images/${user?.uid}/${ImgAsFile.name}`)
+      .ref(`/images/${user?.uid}/${Name}`)
       .put(ImgAsFile);
     //initiates the firebase side uploading
     uploadTask.on(
@@ -106,20 +102,19 @@ const UserDetails = () => {
       () => {
         // gets the functions from storage refences the image storage in firebase by the children
         // gets the download url then sets the image from firebase as the value for the imgUrl key:
+        // here it is used to make sure image is  uploaded correctly
         storage
           .ref(`images/${user?.uid}`)
-          .child(ImgAsFile.name)
+          .child(Name)
           .getDownloadURL()
           .then((fireBaseImgUrl) => {
-            setImgUrl(fireBaseImgUrl);
-            console.log("ImgUrl: ", ImgUrl);
-            console.log("FireBaseImgUrl: ", fireBaseImgUrl);
+            userDetailUpload(fireBaseImgUrl);
             history.push("/home");
           });
       }
     );
   };
-  const userDetailUpload = () => {
+  const userDetailUpload = (Url) => {
     if (Name !== "" || (Name !== null && Address !== "") || Address !== null) {
       db.collection("Users")
         .doc(user?.uid)
