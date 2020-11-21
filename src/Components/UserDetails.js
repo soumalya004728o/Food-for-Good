@@ -49,7 +49,7 @@ const UserDetails = () => {
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
   const [ImgAsFile, setImgAsFile] = useState("");
-  //   const[ImgUrl,setImgUrl] = useState('');
+    const[ImgUrl,setImgUrl] = useState('');
   //to reset the file input value
   // Used to change date format from yyyy-mm-dd to dd-mm-yyyy
   // const handledate = e =>{
@@ -104,11 +104,8 @@ const UserDetails = () => {
           .child(ImgAsFile.name)
           .getDownloadURL()
           .then((fireBaseImgUrl) => {
-            dispatch({
-              type: 'SET_IMAGE',
-              imageurl: toString(fireBaseImgUrl),
-            });
-            console.log("ImgUrl: ", imageurl);
+           setImgUrl(fireBaseImgUrl);
+            console.log("ImgUrl: ", ImgUrl);
             console.log("FireBaseImgUrl: ", fireBaseImgUrl);
             history.push("/home");
           });

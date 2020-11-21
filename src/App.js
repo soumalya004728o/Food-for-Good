@@ -14,17 +14,17 @@ import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
-  const [{user}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         dispatch({
-          type: 'SET_USER',
+          type: "SET_USER",
           user: authUser,
         });
       } else {
         dispatch({
-          type: 'SET_USER',
+          type: "SET_USER",
           user: null,
         });
       }
@@ -34,34 +34,40 @@ function App() {
     <Router>
       <div className="App">
         <CssBaseline />
-        <MiniDrawer>
-          <Switch>
-            <Route path="/cart">
+        <Switch>
+          <Route path="/cart">
+            <MiniDrawer>
               <Cart />
-            </Route>
-            <Route path="/delivery">
+            </MiniDrawer>
+          </Route>
+          <Route path="/delivery">
+            <MiniDrawer>
               <Delivery />
-            </Route>
-            <Route path="/user_auth">
-              <UserAuth />
-            </Route>
-            <Route path="/alert">
+            </MiniDrawer>
+          </Route>
+          <Route path="/user_auth">
+            <UserAuth />
+          </Route>
+          <Route path="/alert">
+            <MiniDrawer>
               <Alert />
-            </Route>
-            <Route path="/wishlist">
+            </MiniDrawer>
+          </Route>
+          <Route path="/wishlist">
+            <MiniDrawer>
               <WishList />
-            </Route>
-            <Route path="/signup">
-              <SignUp/>
-            </Route>
-            <Route path="/details">
-              {user?<UserDetails/>:<UserAuth/>}
-            </Route>
-            <Route path="/">
+            </MiniDrawer>
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
+          <Route path="/details">{user ? <UserDetails /> : <UserAuth />}</Route>
+          <Route path="/">
+            <MiniDrawer>
               <Content />
-            </Route>
-          </Switch>
-        </MiniDrawer>
+            </MiniDrawer>
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

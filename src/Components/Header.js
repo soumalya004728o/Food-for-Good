@@ -53,12 +53,12 @@ export default function MiniDrawer(props) {
   const [{ basket, wishlist, user }] = useStateValue();
   const fetchName = async () => {
     console.log("fetchName fired");
-    const snapshot = await db
-      .collection("Users")
-      .doc(user?.uid)
-      .collection("details")
-      .doc("data")
-      .get();
+      const snapshot = await db
+        .collection("Users")
+        .doc(user?.uid)
+        .collection("details")
+        .doc("data")
+        .get();
       setData(snapshot.data());
   };
   //Needs to be called when user is changed and fetching is done
@@ -69,7 +69,7 @@ export default function MiniDrawer(props) {
       fetchName();
       cutString();
     }
-  }, [user,fetchName]);
+  }, [user, fetchName]);
   const login = () => {
     history.push("/user_auth");
   };
@@ -79,7 +79,7 @@ export default function MiniDrawer(props) {
   };
   const cutString = () => {
     console.log("cutString fired for: ", user?.uid);
-    if (Data.Name !== undefined) {
+    if (Data.Name) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
