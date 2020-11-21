@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UserAuth() {
+const Login= ()=> {
   const classes = useStyles();
   const history = useHistory();
   const [Email, setEmail] = useState("");
@@ -108,3 +108,4 @@ export default function UserAuth() {
     </Grid>
   );
 }
+export default Login;

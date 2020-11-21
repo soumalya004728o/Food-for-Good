@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Paper,
   Grid,
@@ -68,14 +68,14 @@ const UserDetails = () => {
     //changing this key will force a re render making the file name disappear
     setkey(false);
   };
-  useEffect(()=>{
-    console.log("UseEffect ImgUrl:",ImgUrl);
-  },[ImgUrl]);
+  useEffect(() => {
+    console.log("UseEffect ImgUrl:", ImgUrl);
+  }, [ImgUrl]);
   const upload = (e) => {
     e.preventDefault();
     console.log("upload");
-    firebaseUpload();
     userDetailUpload();
+    firebaseUpload();
   };
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];

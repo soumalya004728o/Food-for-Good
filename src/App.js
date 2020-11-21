@@ -6,10 +6,11 @@ import Content from "./Components/Content";
 import Alert from "./Components/Alert";
 import Cart from "./Components/Cart";
 import Delivery from "./Components/Delivery";
-import UserAuth from "./Components/UserAuth";
+import Login from "./Components/Login";
 import WishList from "./Components/WishList";
 import SignUp from "./Components/SignUp";
 import UserDetails from "./Components/UserDetails";
+import Footer from "./Components/Footer";
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -46,7 +47,7 @@ function App() {
             </MiniDrawer>
           </Route>
           <Route path="/user_auth">
-            <UserAuth />
+            <Login />
           </Route>
           <Route path="/alert">
             <MiniDrawer>
@@ -61,13 +62,14 @@ function App() {
           <Route path="/signup">
             <SignUp />
           </Route>
-          <Route path="/details">{user ? <UserDetails /> : <UserAuth />}</Route>
+          <Route path="/details">{user ? <UserDetails /> : <Login />}</Route>
           <Route path="/">
             <MiniDrawer>
               <Content />
             </MiniDrawer>
           </Route>
         </Switch>
+        <Footer/>
       </div>
     </Router>
   );
