@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Badge,
-  Avatar,
+  // Avatar,
 } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -42,8 +42,8 @@ export default function MiniDrawer(props) {
   const theme = useTheme();
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  var [Data, setData] = useState("");
-  var [Name, setName] = useState("");
+  const [Data, setData] = useState();
+  const [Name, setName] = useState("");
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -51,20 +51,22 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [{ basket, wishlist, user }] = useStateValue();
-  const fetchName = async () => {
-    // console.log("fetchName fired");
-    await db
-      .collection("Users")
-      .doc(user?.uid)
-      .collection("details")
-      .doc("data")
-      .get()
-      .then((snap) => {
-        setData(snap.data());
-        // console.log("Data set")
-      });
-  };
+  const [{basket, wishlist, user}] = useStateValue();
+  const fetchName = () =>
+  {
+    var docRef = db.collection("Users").doc(user?.uid).collection("details").doc("data");
+    docRef.get().then((doc)=>{
+      if(doc.exists){
+        setData(doc.data());
+        console.log("Data set");
+      } else{
+        setData(undefined);
+        console.log("No data found");
+      }
+    }).catch((error)=>{
+      alert(error);
+    });
+  }
   //Needs to be called everytime user changes means everytime a existing user logs in or a new user Signs Up
   useEffect(() => {
     // console.log("UseEffect Fired");
@@ -78,11 +80,12 @@ export default function MiniDrawer(props) {
   };
   const logout = () => {
     auth.signOut();
-    console.log("set data resetted");
+    console.log("set data reset");
   };
   const cutString = () => {
     // console.log("cutString fired for: ", user?.uid);
-    if (Data.Name) {
+    if(Data)
+    {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
@@ -188,9 +191,16 @@ export default function MiniDrawer(props) {
               <ListItemIcon>
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
-              <ListItemText className={clsx(classes.link)}>
-                {Name !== "" ? `${Name}, Log Out` : "Log Out"}
-              </ListItemText>
+              {Data?(
+                <ListItemText className={clsx(classes.link)}>
+                  {`${Name}, Log Out`}
+                </ListItemText>
+              ):(
+
+                  <ListItemText className={clsx(classes.link)}>
+                    "Log Out"
+                  </ListItemText>
+              )}
             </ListItem>
           ) : (
             <ListItem button onClick={login}>
