@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Badge,
-  // Avatar,
+  Avatar,
 } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -34,7 +34,7 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import color from "../Theme/Color";
 import { Link, useHistory } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
-import { db, auth } from "../firebase";
+import { db, auth, storage } from "../firebase";
 const drawerWidth = 240;
 
 export default function MiniDrawer(props) {
@@ -44,6 +44,7 @@ export default function MiniDrawer(props) {
   const [open, setOpen] = useState(false);
   const [Data, setData] = useState();
   const [Name, setName] = useState("");
+  const [URL,setURL] = useState();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -81,6 +82,7 @@ export default function MiniDrawer(props) {
         fetchName();
       }
       cutString();
+      url();
     }
   }, [user, Data]);
   const login = () => {
@@ -96,6 +98,22 @@ export default function MiniDrawer(props) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
+    }
+  };
+  const url = () => {
+    if (user && Data) {
+      storage
+        .ref(`images/${user?.uid}`)
+        .child(Data.Name)
+        .getDownloadURL()
+        .then((url)=>{
+          setURL(url);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setURL(undefined);
     }
   };
   return (
@@ -195,11 +213,18 @@ export default function MiniDrawer(props) {
           </Link>
           {user ? (
             <ListItem button onClick={logout}>
-              <ListItemIcon>
-                <AccountCircleIcon style={{ fontSize: 40 }} />
-              </ListItemIcon>
+              {Data ? (
+                <ListItemIcon>
+                  <Avatar alt={Data.Name} src={URL}/>
+                  {console.log(URL)}
+                </ListItemIcon>
+              ) : (
+                <ListItemIcon>
+                  <AccountCircleIcon style={{ fontSize: 40 }} />
+                </ListItemIcon>
+              )}
               <ListItemText className={clsx(classes.link)}>
-                {Data?(`${Name}, Log Out`):("Log Out")}
+                {Data ? `${Name}, Log Out` : "Log Out"}
               </ListItemText>
             </ListItem>
           ) : (
