@@ -71,7 +71,10 @@ export default function MiniDrawer(props) {
   useEffect(() => {
     // console.log("UseEffect Fired");
     if (user !== null) {
-      fetchName();
+      if(!Data)
+      {
+        fetchName();
+      }
       cutString();
     }
   }, [user, Data]);
