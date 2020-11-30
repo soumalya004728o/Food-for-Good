@@ -51,28 +51,33 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [{basket, wishlist, user}] = useStateValue();
-  const fetchName = () =>
-  {
-    var docRef = db.collection("Users").doc(user?.uid).collection("details").doc("data");
-    docRef.get().then((doc)=>{
-      if(doc.exists){
-        setData(doc.data());
-        console.log("Data set");
-      } else{
-        setData(undefined);
-        console.log("No data found");
-      }
-    }).catch((error)=>{
-      alert(error);
-    });
-  }
+  const [{ basket, wishlist, user }] = useStateValue();
+  const fetchName = () => {
+    var docRef = db
+      .collection("Users")
+      .doc(user?.uid)
+      .collection("details")
+      .doc("data");
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setData(doc.data());
+          console.log("Data set");
+        } else {
+          setData(undefined);
+          console.log("No data found");
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
   //Needs to be called everytime user changes means everytime a existing user logs in or a new user Signs Up
   useEffect(() => {
     // console.log("UseEffect Fired");
     if (user !== null) {
-      if(!Data)
-      {
+      if (!Data) {
         fetchName();
       }
       cutString();
@@ -87,8 +92,7 @@ export default function MiniDrawer(props) {
   };
   const cutString = () => {
     // console.log("cutString fired for: ", user?.uid);
-    if(Data)
-    {
+    if (Data) {
       const name = Data.Name;
       const firstName = name.substr(0, name.indexOf(" "));
       setName(firstName);
@@ -194,16 +198,9 @@ export default function MiniDrawer(props) {
               <ListItemIcon>
                 <AccountCircleIcon style={{ fontSize: 40 }} />
               </ListItemIcon>
-              {Data?(
-                <ListItemText className={clsx(classes.link)}>
-                  {`${Name}, Log Out`}
-                </ListItemText>
-              ):(
-
-                  <ListItemText className={clsx(classes.link)}>
-                    "Log Out"
-                  </ListItemText>
-              )}
+              <ListItemText className={clsx(classes.link)}>
+                {Data?(`${Name}, Log Out`):("Log Out")}
+              </ListItemText>
             </ListItem>
           ) : (
             <ListItem button onClick={login}>

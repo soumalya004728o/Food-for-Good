@@ -167,7 +167,7 @@ const removeFromWishList = () =>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <IconButton style={{ marginLeft: "45%" }} onClick={cartClick}>
+        <IconButton style={{ marginLeft: "40%" }} onClick={cartClick}>
           <AddShoppingCartIcon style={{color: addCart}} />
         </IconButton>
       </CardActions>

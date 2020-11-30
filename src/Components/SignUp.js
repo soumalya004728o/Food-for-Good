@@ -10,7 +10,6 @@ import {
   makeStyles,
   Button,
   useMediaQuery,
-  Box,
 } from "@material-ui/core";
 import { red, grey } from "@material-ui/core/colors";
 import banner from "../banner.png";
