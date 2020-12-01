@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     marginRight: "auto",
   },
   paperSm: {
-    marginTop: 150,
+    marginTop: "15%",
     width: "95%",
     margin: "auto",
   },

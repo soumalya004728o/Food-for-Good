@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   paperSm: {
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: "10%",
+    marginTop: "7%",
     width: "90%",
   },
   form: {
