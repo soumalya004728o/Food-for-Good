@@ -23,11 +23,17 @@ const useStyles = makeStyles({
     marginRight: "auto",
   },
   paperSm: {
-    width: "100%",
+    marginTop: 150,
+    width: "95%",
     margin: "auto",
   },
   form: {
     marginLeft: "15%",
+    alignItems: "center",
+  },
+  formSm:
+  {
+    marginLeft: "6%",
     alignItems: "center",
   },
   formhtml:{
@@ -104,7 +110,7 @@ const SignUp = () => {
         <form className={classes.formhtml}>
           <Grid container>
             <Grid item xs={12}>
-              <FormControl className={classes.form}>
+              <FormControl className={matches?classes.formSm:classes.form}>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                   id="email"
@@ -119,7 +125,7 @@ const SignUp = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.form}>
+              <FormControl className={matches?classes.formSm:classes.form}>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
                   id="password"
@@ -135,7 +141,7 @@ const SignUp = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.form}>
+              <FormControl className={matches?classes.formSm:classes.form}>
                 <InputLabel htmlFor="password-conf">
                   Confirm Password
                 </InputLabel>

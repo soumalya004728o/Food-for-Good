@@ -10,12 +10,13 @@ import Login from "./Components/Login";
 import WishList from "./Components/WishList";
 import SignUp from "./Components/SignUp";
 import UserDetails from "./Components/UserDetails";
-import Footer from "./Components/Footer";
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
+import {useSpring,animated} from "react-spring";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
   const [{ user }, dispatch] = useStateValue();
+  const fade = useSpring({from:{opacity: 0}, to:{opacity: 1}});
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -33,7 +34,7 @@ function App() {
   }, [dispatch]);
   return (
     <Router>
-      <div className="App">
+      <animated.div className="App" style={fade}>
         <CssBaseline />
         <Switch>
           <Route path="/cart">
@@ -69,8 +70,7 @@ function App() {
             </MiniDrawer>
           </Route>
         </Switch>
-        <Footer/>
-      </div>
+      </animated.div>
     </Router>
   );
 }

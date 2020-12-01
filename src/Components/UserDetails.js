@@ -12,6 +12,7 @@ import {
   Button,
   useMediaQuery,
   Box,
+  Avatar,
 } from "@material-ui/core";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { db, storage } from "../firebase";
@@ -26,8 +27,10 @@ const useStyles = makeStyles({
     marginRight: "auto",
   },
   paperSm: {
-    width: "100%",
-    margin: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "10%",
+    width: "90%",
   },
   form: {
     margin: 20,
@@ -40,18 +43,33 @@ const useStyles = makeStyles({
   button: {
     textAlign: "center",
   },
+  large: {
+    marginTop: 20,
+    marginBottom: 5,
+    width: 150,
+    height: 150,
+  },
+  inputPlace: {
+    marginLeft: "15%",
+  },
+  inputPlaceSm: {
+    marginLeft: "5%",
+  },
+  inputSm: {
+      width: 250,
+  }
 });
 const UserDetails = () => {
   const classes = useStyles();
   const history = useHistory();
   const matches = useMediaQuery("(max-width:576px)");
-  //   const allInputs = {imgUrl: ''};
   const [{ user }] = useStateValue();
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
   const [dob, setdob] = useState("");
-  const [ImgAsFile, setImgAsFile] = useState("");
+  const [ImgAsFile, setImgAsFile] = useState(undefined);
   //to reset the file input value
+  const [key, setkey] = useState(true);
   // Used to change date format from yyyy-mm-dd to dd-mm-yyyy
   // const handledate = e =>{
   //   let d = e.target.value;
@@ -59,7 +77,6 @@ const UserDetails = () => {
   //   setdob(d);
   //   console.log(dob);
   // }
-  const [key, setkey] = useState(true);
   const reset = () => {
     setdob("");
     setImgAsFile("");
@@ -70,7 +87,6 @@ const UserDetails = () => {
   const upload = (e) => {
     e.preventDefault();
     console.log("upload");
-    // userDetailUpload();
     firebaseUpload();
   };
   const handleImageAsFile = (e) => {
@@ -80,8 +96,6 @@ const UserDetails = () => {
   };
   const firebaseUpload = () => {
     console.log("Photo upload start");
-    //Async start
-    //error handling at first
     if (ImgAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
     }
@@ -100,21 +114,17 @@ const UserDetails = () => {
         console.log(err);
       },
       () => {
-        // gets the functions from storage refences the image storage in firebase by the children
-        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-        // here it is used to make sure image is  uploaded correctly
         storage
           .ref(`images/${user?.uid}`)
           .child(Name)
           .getDownloadURL()
-          .then((fireBaseImgUrl) => {
-            userDetailUpload(fireBaseImgUrl);
-            history.push("/home");
+          .then(() => {
+            userDetailUpload();
           });
       }
     );
   };
-  const userDetailUpload = (Url) => {
+  const userDetailUpload = () => {
     if (Name !== "" || (Name !== null && Address !== "") || Address !== null) {
       db.collection("Users")
         .doc(user?.uid)
@@ -124,15 +134,21 @@ const UserDetails = () => {
           Name: Name,
           Address: Address,
           DOB: dob,
-        });
-    }
+        }).then(()=>
+          history.push("/")
+        )
+    };
   };
   return (
     <Grid container>
       <Paper className={matches ? classes.paperSm : classes.paper}>
         <Grid item xs={12}>
           <Box display="flex" alignItems="center" justifyContent="center">
-            <AccountCircleOutlinedIcon style={{ fontSize: 200 }} />
+            {ImgAsFile?(
+              <Avatar alt={Name} className={classes.large} src={URL.createObjectURL(ImgAsFile)} />
+            ):(
+              <AccountCircleOutlinedIcon style={{ fontSize: 200 }} />
+            )}
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -142,7 +158,7 @@ const UserDetails = () => {
         </Grid>
         <form>
           <Grid container>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} className={matches?classes.inputPlaceSm:classes.inputPlace}>
               <FormControl className={classes.form}>
                 <InputLabel htmlFor="name">Name</InputLabel>
                 <Input
@@ -152,10 +168,11 @@ const UserDetails = () => {
                   onChange={(e) => setName(e.target.value)}
                   value={Name}
                   required={true}
+                  className={matches?classes.inputSm:classes.input}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} className={matches?classes.inputPlaceSm:classes.inputPlace}>
               <FormControl className={classes.form}>
                 <InputLabel htmlFor="address">Delivery Address</InputLabel>
                 <Input
@@ -165,11 +182,12 @@ const UserDetails = () => {
                   onChange={(e) => setAddress(e.target.value)}
                   value={Address}
                   required={true}
+                  className={matches?classes.inputSm:classes.input}
                 />
                 <FormHelperText>Address won't be Shared</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} className={matches?classes.inputPlaceSm:classes.inputPlace}>
               <FormControl className={classes.form}>
                 <TextField
                   id="dob"
@@ -180,10 +198,11 @@ const UserDetails = () => {
                   }}
                   onChange={(e) => setdob(e.target.value)}
                   value={dob}
+                  className={matches?classes.inputSm:classes.input}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={matches?classes.inputPlaceSm:classes.inputPlace}>
               <FormControl className={classes.form}>
                 <TextField
                   id="photo"
@@ -195,6 +214,7 @@ const UserDetails = () => {
                   }}
                   onChange={handleImageAsFile}
                   key={key}
+                  className={matches?classes.inputSm:classes.input}
                 />
               </FormControl>
             </Grid>
