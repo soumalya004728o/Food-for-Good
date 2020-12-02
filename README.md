@@ -1,53 +1,108 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Your Store
 
-## Available Scripts
+---
+`About the Project`
+It will be a Open Source online Store creator tool, that will make any business with an internet connection to get up and running with their own online store within 10 minutes.
 
-In the project directory, you can run:
+`Main featues`
 
-### `yarn start`
+- Many templates to choose from
+- Can customize everything from colors to store name and html meta data, products etc
+- The data will be stored in their own firebase account with Google's trust and Security.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Current Progress
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
+- The first template is being built now.
+- It is being built as a full scale e-commerce application now but later we will introduce dynamical components here.
+- And slowly after learning from this we will make other templates much quicker.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Prerequisites for working in this repo
 
-### `yarn build`
+---
+`Softwares and technologies`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Git
+- Node
+- Yarn Package manager
+- Code Editor
+- Any code formatter
+These are the things you need to get in your local development environment before working in this repo.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Steps to get running after forking and cloning to your local machine
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
+1. Open any Code Editor
+2. In your Terminal/Shell/Command Promt navigate to the root project folder
+3. Run command
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+    Yarn install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This will install all the dependencies.
+4. You are Up and Running with this now.
+5. To test your code locally you need to run
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+    Yarn start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. For firebase
 
-## Learn More
+```sh
+    npm -g firebase-tools
+    yarn add firebase
+```
 
-### `Technology Stack`
+1. For setting up your firebase account and integrating it in the repo  refer to     [This Article][tutorial]
+2. Fill in your firebase account details in the file `firebase.js`. It is intentionally `left Blank`.
+3. For firebase you need to get authorization service with email and Password(`without verification` **for now only**), firestore service and storage service enabled.
 
-- Node Js
-- Yarn Package Manager
-- React Js
-- Material UI
-- NPM FireBase Module
-- NPM FireBase Tools
+# Technology Stack
 
-**Note: I have used React Context API in place of Redux in this project.**
+---
+| Technology | Version |
+| ------ | ------ |
+| React Js | [^17.0.1][reactjs] |
+| React-router-dom | [^5.2.0][react-router] |
+| @material-ui | [^4.11.0][material] |
+| react-spring | [^8.0.27][spring] |
+| Firebase | [^8.0.27][firebase] |
+
+[tutorial]: <https://dzone.com/articles/react-apps-firebase>
+[reactjs]: <https://reactjs.org/>
+[react-router]: <https://reactrouter.com/>
+[material]: <https://material-ui.com/>
+[spring]: <https://www.react-spring.io/>
+[firebase]: <https://firebase.google.com/>
+
+# Development
+
+---
+
+- **Code formatted with Prettier is preffered** but any code formatter will do.
+- Put meaningful names to your variables
+- Your code will be build tested autometically when you give a **pull request** or a **push**(`only contributors`) to **main branch**.
+
+# License
+
+---
+
+[AGPL 3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html)
+
+# All Contributors
+
+   ---
+[![soumalyatheking22012001](https://avatars0.githubusercontent.com/u/59192460?s=50&u=bd9360b8e8681d1e14439f63e400d98361c5c871&v=4)](https://github.com/soumalyatheking22012001)
+
+---
+---
+
+## Free Software, Hell Yeah
+
+---
+---
