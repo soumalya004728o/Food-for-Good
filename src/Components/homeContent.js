@@ -26,11 +26,12 @@ import {
   orange,
   lightBlue,
 } from "@material-ui/core/colors";
+import { useSpring, animated } from "react-spring";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import {useStateValue} from "../StateProvider";
+import { useStateValue } from "../StateProvider";
 const avColor = [
   red,
   grey,
@@ -47,7 +48,8 @@ const avColor = [
   amber,
   orange,
 ];
-const item = () => (avColor[Math.floor(Math.random() * avColor.length)]);
+const item = () => avColor[Math.floor(Math.random() * avColor.length)];
+//Main Function start
 const HomeContent = ({
   id,
   avatar,
@@ -59,76 +61,69 @@ const HomeContent = ({
   price,
   quantity,
 }) => {
-  const [,dispatch] = useStateValue();
-  const addToBasket = () =>(
+  const [, dispatch] = useStateValue();
+  const addToBasket = () =>
     dispatch({
-        type: 'ADD_TO_BASKET',
-        item:{
-            id:id,
-            title:title,
-            image:image,
-            price:price,
-        }
-    })
-);
-const removeFromBasket = () =>
-    {
-        dispatch({
-            type: 'REMOVE_FROM_BASKET',
-            id: id,
-        });
-    };
-const addToWishList = () =>(
-  dispatch({
-      type: 'ADD_TO_WishList',
-      item:{
-          id:id,
-          title:title,
-          image:image,
-          price:price,
-      }
-  })
-);
-const removeFromWishList = () =>
-    {
-        dispatch({
-            type: 'REMOVE_FROM_WishList',
-            id: id,
-        });
-    };
+      type: "ADD_TO_BASKET",
+      item: {
+        id: id,
+        title: title,
+        image: image,
+        price: price,
+      },
+    });
+  const removeFromBasket = () => {
+    dispatch({
+      type: "REMOVE_FROM_BASKET",
+      id: id,
+    });
+  };
+  const addToWishList = () =>
+    dispatch({
+      type: "ADD_TO_WishList",
+      item: {
+        id: id,
+        title: title,
+        image: image,
+        price: price,
+      },
+    });
+  const removeFromWishList = () => {
+    dispatch({
+      type: "REMOVE_FROM_WishList",
+      id: id,
+    });
+  };
   const classes = useStyles();
-  const [like, setLiked] = useState(grey[500]);
-  const[click, setClick] = useState(1);
+  const [like, setLike] = useState(grey[500]);
+  const [click, setClick] = useState(1);
   const [clickBasket, setClickBasket] = useState(1);
   const [addCart, setAddCart] = useState(grey[500]);
-  const counter = () =>
-  {
-    setClick((c)=>c+1);
-    if(click%2!==0)
-    {
-      setLiked(red[500]);
+  const counter = () => {
+    setClick((c) => c + 1);
+    if (click % 2 !== 0) {
+      setLike(red[500]);
       addToWishList();
-    }
-    else
-    {
-      setLiked(grey[500]);
+    } else {
+      setLike(grey[500]);
       removeFromWishList();
     }
-  }
-  const cartClick = () =>
-  {
-    setClickBasket((c)=>c+1);
-    if(clickBasket%2!==0)
-    {
+  };
+  const cartClick = () => {
+    setClickBasket((c) => c + 1);
+    if (clickBasket % 2 !== 0) {
       setAddCart(lightBlue[500]);
       addToBasket();
-    }
-    else
-    {
+    } else {
       setAddCart(grey[500]);
       removeFromBasket();
     }
-  }
+  };
+  const props = useSpring({
+    config: { mass: 5, tension: 350, friction: 40 },
+    // scale: (like===red[500])? 0.5:1
+  });
+  const fade = useSpring({from:{opacity: 0}, to:{opacity: 1}});
   return (
     <Card className={classes.root} key={id}>
       <CardHeader
@@ -158,17 +153,18 @@ const removeFromWishList = () =>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton
-          aria-label="add to favorites"
-          onClick={counter}
-        >
-          <FavoriteIcon style={{ color: like }} />
-        </IconButton>
+        <animated>
+          <IconButton aria-label="add to favorites" onClick={counter}>
+            <FavoriteIcon
+              style={{ color: like, props}}
+            />
+          </IconButton>
+        </animated>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
         <IconButton style={{ marginLeft: "40%" }} onClick={cartClick}>
-          <AddShoppingCartIcon style={{color: addCart}} />
+          <AddShoppingCartIcon style={{ color: addCart }} />
         </IconButton>
       </CardActions>
     </Card>
