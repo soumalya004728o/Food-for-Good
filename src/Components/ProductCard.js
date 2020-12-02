@@ -26,7 +26,7 @@ import {
   orange,
   lightBlue,
 } from "@material-ui/core/colors";
-import { useSpring, animated } from "react-spring";
+import { useSpring} from "react-spring";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -50,7 +50,7 @@ const avColor = [
 ];
 const item = () => avColor[Math.floor(Math.random() * avColor.length)];
 //Main Function start
-const HomeContent = ({
+const ProductCard = ({
   id,
   avatar,
   image,
@@ -193,4 +193,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default HomeContent;
+export default ProductCard;

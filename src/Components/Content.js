@@ -1,12 +1,12 @@
 import React from "react";
+import ProductCard from "./ProductCard";
 import { Grid } from "@material-ui/core";
-import HomeContent from "./Homecontent";
 const Content = () => {
   return (
     <React.Fragment>
       <Grid container spacing={2} className="content__row">
         <Grid item xs={12} sm={4}>
-          <HomeContent
+          <ProductCard
             id={1}
             avatar="O"
             image="https://www.bigbasket.com/media/uploads/p/xxl/10000148_28-fresho-onion.jpg"
@@ -19,7 +19,7 @@ const Content = () => {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <HomeContent
+          <ProductCard
             id={2}
             avatar="B"
             image="https://www.bigbasket.com/media/uploads/p/l/20000745_5-fresho-bottle-gourd.jpg"
@@ -32,7 +32,7 @@ const Content = () => {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <HomeContent
+          <ProductCard
             id={3}
             avatar="T"
             image="https://www.bigbasket.com/media/uploads/p/l/40004374_12-fresho-turmeric-fresh.jpg"
@@ -45,7 +45,7 @@ const Content = () => {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <HomeContent
+          <ProductCard
             id={4}
             avatar="S"
             image="https://www.bigbasket.com/media/uploads/p/l/40042988_1-fresho-spine-gourd.jpg"
@@ -58,7 +58,7 @@ const Content = () => {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <HomeContent
+          <ProductCard
             id={5}
             avatar="M"
             image="https://www.bigbasket.com/media/uploads/p/l/10000273_13-fresho-mushrooms-button.jpg"
