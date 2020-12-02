@@ -52,7 +52,7 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [{ basket, wishlist, user }] = useStateValue();
+  const [{ basket, wishlist, user }] = useStateValue('');
   const fetchName = () => {
     var docRef = db
       .collection("Users")

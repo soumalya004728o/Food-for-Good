@@ -61,7 +61,7 @@ const HomeContent = ({
   price,
   quantity,
 }) => {
-  const [, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue('');
   const addToBasket = () =>
     dispatch({
       type: "ADD_TO_BASKET",

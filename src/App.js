@@ -15,7 +15,7 @@ import { useStateValue } from "./StateProvider";
 import {useSpring,animated} from "react-spring";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue('');
   const fade = useSpring({from:{opacity: 0}, to:{opacity: 1}});
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
