@@ -1,3 +1,4 @@
+name: Build Action
 on:
   push:
   pull_request:

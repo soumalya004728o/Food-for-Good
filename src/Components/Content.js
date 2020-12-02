@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import HomeContent from "./homecontent";
+import HomeContent from "../Components/homecontent";
 const Content = () => {
   return (
     <React.Fragment>
