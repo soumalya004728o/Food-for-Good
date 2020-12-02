@@ -84,7 +84,7 @@ export default function MiniDrawer(props) {
       cutString();
       url();
     }
-  }, [user, Data]);
+  });
   const login = () => {
     history.push("/user_auth");
   };
