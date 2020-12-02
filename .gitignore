@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+/firebase
+/idea
 
 # testing
 /coverage
@@ -26,4 +28,3 @@ yarn-error.log*
 src/firebase.js
 firebase.json
 .firebaserc
-/firebase
