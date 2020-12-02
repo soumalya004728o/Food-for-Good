@@ -121,9 +121,9 @@ const HomeContent = ({
   };
   const props = useSpring({
     config: { mass: 5, tension: 350, friction: 40 },
-    // scale: (like===red[500])? 0.5:1
+    scale: (like===red[500])? 0.5:1
   });
-  const fade = useSpring({from:{opacity: 0}, to:{opacity: 1}});
+  // const fade = useSpring({from:{opacity: 0}, to:{opacity: 1}});
   return (
     <Card className={classes.root} key={id}>
       <CardHeader
