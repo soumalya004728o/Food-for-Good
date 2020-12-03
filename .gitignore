@@ -3,7 +3,6 @@
 # dependencies
 /node_modules
 /.pnp
-/.firebase
 .pnp.js
 
 # testing
@@ -24,6 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # intentional
-src/firebase.js
-firebase.json
-.firebaserc
+# src/firebase.js
+# firebase.json
+# .firebaserc
