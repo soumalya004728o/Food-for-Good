@@ -24,6 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # intentional
-/src
+/src/firebase.js*
 firebase.json
 .firebaserc
