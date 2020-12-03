@@ -2,7 +2,8 @@
 # Your Store
 
 `About the Project`
-It will be a Open Source online Store creator tool, that will make any business with an internet connection to get up and running with their own online store within 10 minutes.
+
+It will be an Open Source online Store creator tool, that will make any business with an internet connection to get up and running with their own online store within 10 minutes.
 
 `Main featues`
 
@@ -58,7 +59,6 @@ This will install all the dependencies.
 
 # Technology Stack
 
----
 | Technology | Version |
 | ------ | ------ |
 | React Js | [^17.0.1][reactjs] |
